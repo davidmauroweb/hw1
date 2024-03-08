@@ -1,0 +1,47 @@
+@extends('layouts.app')
+@section('legend_id')
+<H4 style="text-align:center">Listado de Equipamiento de {{$business_name}}</H4>  
+@endsection
+@section('content')
+
+<div class="container">
+        <div class="container" style = "width:90%"> 
+              </div>
+              <div class="row"></div>
+              <div class="row"></div>
+              <div class="row"></div>
+                <div class="row">
+                <div class="col-sm-12 mx-auto">
+                    <table id="componentsTable" class="table table-sm">
+                        <thead>
+                            <tr style="text-align:center; background-color:gray ; color:white;">
+                                <th>#</th>
+                                <th>DESCRIPCIÓN</th>
+                                <th>REGISTRADO</th>
+                                <th>COSTO</th>
+                                <th>COMPONENTES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($devices as $device)
+                            <tr style="text-align: center" id="{{$device->device_id}}">
+                                <td>{{ $device->device_id }}</td>
+                                <td>{{ $device->description}}</td>
+                                <td>{{ $device->created_at}}</td>
+                                <td>{{ $device->s_components}}</td>
+                                <td>{{ $device->q_components}}</td>
+                              </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="d-flex">
+                {{ $devices->links() }}
+            </div>
+                </div>
+            </div>
+            <div class="row">
+        <div class="col"><hr></div>
+    </div>
+     </div>
+
+@endsection
