@@ -10,6 +10,7 @@ Route::patch('/customers/{id}', [CustomerController::class, 'update'])->name('cu
 //DEVICES
 Route::get('/devices/{id}/{string_find?}', [DeviceController::class, 'index'])->name('devices.index');
 Route::get('/pdf/{id}/{string_find?}', [DeviceController::class, 'pdf'])->name('devices.pdf');
+
 Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
 Route::delete('/devices/{id}', [DeviceController::class, 'destroy'])->name('devices.destroy');
 //USER
@@ -37,6 +38,7 @@ Route::get('/state/{id}', [ReceiverController::class, 'state'])->name('state.ind
 Route::get('/visit/{token}/{id}', [VisitController::class, 'visit'])->name('visit.index');
 //DASHBOARD
 Route::get('/dashboard/{id}', [DashboardController::class, 'dashboard'])->name('hardware.dashboard');
+Route::get('/pdfu/{id}/{string_find?}', [DashboardController::class, 'pdfu'])->name('devices.pdfu');
 Route::get('/detail/{customer}/{id}', [DashboardController::class, 'detail'])->name('list.index');
 Auth::routes();
 Route::get('/', function () {
