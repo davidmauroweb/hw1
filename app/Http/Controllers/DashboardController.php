@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{DB, Auth};
 use App\Models\Customer;
+use PDF;
 
 class DashboardController extends Controller
 {
@@ -98,7 +99,7 @@ class DashboardController extends Controller
         ->get();
 //        return view('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components]);
         $pdf = PDF::loadView('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components]);
-        return $pdf->download('lista.pdf');
+        return $pdf->download($customer->business_name.'.pdf');
 
     }
 }

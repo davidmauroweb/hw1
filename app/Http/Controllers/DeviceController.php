@@ -49,41 +49,10 @@ class DeviceController extends Controller
         ->where('customer_id', '=', $request->id)
         ->where('low','=', 0)
         ->get();
-        return view('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components]);
-//        $pdf = PDF::loadView('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components]);
-//        return $pdf->download('lista.pdf');
+//        return view('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components]);
+        $pdf = PDF::loadView('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components]);
+        return $pdf->download($customer->business_name.'.pdf');
     }
-
-    public function pdfu(Request $id)
-    {
-        //$i = base64_decode($id);
-        //$x = explode("||||",$i);
-        //$i = $x[0];
-        echo $i; /*
-        $customer = Customer::find($i);
-        $devices = DB::table('devices')
-        ->leftJoin(DB::Raw('(SELECT * FROM components WHERE low = 0) components'), 'components.device_id', 'devices.device_id')
-        ->select('devices.device_id', 'devices.description', DB::raw('COUNT(components.component_id) as q_components'), DB::raw('SUM(components.amount) as s_components'), 'devices.created_at', 'devices.enabled')
-        ->where('devices.customer_id', $i)
-        ->where('devices.description', 'LIKE', (isset($request->string_find) ? '%'.$request->string_find.'%' : '%%'))
-        ->groupBy('devices.device_id', 'devices.description', 'devices.created_at', 'devices.enabled')
-        ->get();
-
-///////////////////////
-
-        $components = DB::table('components')
-        ->leftJoin('devices', 'components.device_id','devices.device_id')
-        ->select('components.component_id','components.device_id','components.trademark','components.features','components.amount')
-        ->where('customer_id', '=', $i)
-        ->where('low','=', 0)
-        ->get();
-//return view('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components]);
-//        $pdf = PDF::loadView('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components]);
-//        return $pdf->download('lista.pdf');
-
-*/
-    }
-
 
     public function store(Request $request)
     {

@@ -83,7 +83,7 @@
                     <div class="row">
                 @foreach($customers as $customer)
                 <div class="col-sm"><div class="d-flex justify-content-center"><a href="{{ route('hardware.dashboard', base64_encode($customer->customer_x))}}" class="btn btn-primary active" role="button" aria-pressed="true">{{$customer->business_name}}</a> 
-                                                                               <a href="{{ route('devices.pdfu', base64_encode($customer->customer_x))}}" class="btn btn-success active" role="button" aria-pressed="true"><i class="fa fa-file-pdf" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Descargar PDF'></i></a></div> </div>
+                                                                               <a href="{{ route('devices.pdfu', base64_encode($customer->customer_x))}}" class="btn btn-success active mx-2" role="button" aria-pressed="true"><i class="fa fa-file-pdf" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Descargar PDF'></i></a></div> </div>
                 @endforeach
                 </div>
                 </div>  
