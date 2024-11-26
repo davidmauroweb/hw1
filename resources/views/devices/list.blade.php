@@ -255,8 +255,8 @@ $.ajax({
 
 function Delete(id, dev, desc) {
     var url; 
-    url = '{{ route("components.destroy", ":id") }}';
-    url = url.replace(':id', id);    
+    url = '{{ route("components.destroy", "x") }}';
+    url = url.replace('x', id);    
     var token = $("meta[name='csrf-token']").attr("content");
     $.ajax({
            url:  url,
@@ -270,8 +270,8 @@ function Delete(id, dev, desc) {
 
 function Low(id, dev, desc) {
     var url; 
-    url = '{{ route("components.low", ":id") }}';
-    url = url.replace(':id', id);    
+    url = '{{ route("components.low", "x") }}';
+    url = url.replace('x', id);    
     var token = $("meta[name='csrf-token']").attr("content");
     $.ajax({
            url:  url,
@@ -296,7 +296,7 @@ $.ajax({
         if(data.length > 0) {
             $.each(data, function(i, item){
                 if(type==0)
-                cards+='<div class="col"><div class="card border-success mb-3" style="max-width: 18rem;"><div class="card-header">' + item.icon + ' <span class="badge bg-success">' + item.denomination + '</span><br> <button data-bs-toggle="modal" data-bs-target="#EditModal" id = "btnLow" onclick="Edit(' + item.component_id + ')" class="btn btn-secondary btn-sm"><i class="fa-solid fa-pencil" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Editar Componente"></i></button> <button class="btn btn-danger btn-sm" onclick="Delete(' + item.component_id + ',' + item.device_id + ',' + desc + ')"><i class="fa-solid fa-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Eliminar componente"></i></button> <button class="btn btn-warning btn-sm" onclick="Low(' + item.component_id + ',' + item.device_id + ',' + desc+ ')"><i class="fa-solid fa-down-long" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Dar de baja"></i></button></div><div class="card-body text-success"><h6 class="card-title"><span class="badge bg-success">' + item.trademark + ' ' + item.features + '</span></h6><ul class="list-group"><li class="list-group-item">Adquirido: ' + (item.acquired != null ? item.acquired : '') +  '</li><li class="list-group-item">Caducidad: ' + (item.date_of_expiry != null ? item.date_of_expiry : '') +  '</li><li class="list-group-item">Precio: $ ' +  (item.amount != null ? item.amount : '') + '</li><li class="list-group-item">Antigüedad: ' + item.time + ' </li></ul></div></div></div>';
+                cards+='<div class="col"><div class="card border-success mb-3" style="max-width: 18rem;"><div class="card-header">' + item.icon + ' <span class="badge bg-success">' + item.denomination + '</span><br> <button data-bs-toggle="modal" data-bs-target="#EditModal" id = "btnLow" onclick="Edit(' + item.component_id + ')" class="btn btn-secondary btn-sm"><i class="fa-solid fa-pencil" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Editar Componente"></i></button> <button class="btn btn-danger btn-sm" onclick="Delete(' + item.component_id + ',' + item.device_id + ',\'' + desc + '\')"><i class="fa-solid fa-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Eliminar componente"></i></button> <button class="btn btn-warning btn-sm" onclick="Low(' + item.component_id + ',' + item.device_id + ',\'' + desc + '\')"><i class="fa-solid fa-down-long" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Dar de baja"></i></button></div><div class="card-body text-success"><h6 class="card-title"><span class="badge bg-success">' + item.trademark + ' ' + item.features + '</span></h6><ul class="list-group"><li class="list-group-item">Adquirido: ' + (item.acquired != null ? item.acquired : '') +  '</li><li class="list-group-item">Caducidad: ' + (item.date_of_expiry != null ? item.date_of_expiry : '') +  '</li><li class="list-group-item">Precio: $ ' +  (item.amount != null ? item.amount : '') + '</li><li class="list-group-item">Antigüedad: ' + item.time + ' </li></ul></div></div></div>';
                 else    
                 cards+='<div class="col"><div class="card border-danger mb-3" style="max-width: 18rem;"><div class="card-header">' + item.icon + ' <span class="badge bg-danger">' + item.denomination + '</span></div><div class="card-body text-success"><h6 class="card-title"><span class="badge bg-danger">' + item.trademark + ' ' + item.features + '</span></h6><ul class="list-group"><li class="list-group-item">Adquirido: ' + (item.acquired != null ? item.acquired : '') +  '</li><li class="list-group-item">Caducidad: ' + (item.date_of_expiry != null ? item.date_of_expiry : '') +  '</li><li class="list-group-item">Precio: $ ' +  (item.amount != null ? item.amount : '') + '</li><li class="list-group-item">Baja: ' + (item.discharge_date != null ? item.discharge_date : '') + ' </li></ul></div></div></div>';
                 });
