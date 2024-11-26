@@ -87,7 +87,14 @@
                             <form action="{{ route('customers.state', $customer->customer_id) }}" method="POST">
                             @method('PATCH')
                             @csrf
-                            <button type="submit" class="btn @if($customer->enabled)btn-danger btn-sm"><i class="fas fa-ban" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Deshabilitar'></i>@else btn-success btn-sm"><i class='fas fa-check-circle' aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Habilitar'></i>@endif</button>
+                            <button type="submit" class="btn @if($customer->enabled)btn-secondary btn-sm"><i class="fas fa-ban" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Deshabilitar'></i>@else btn-success btn-sm"><i class='fas fa-check-circle' aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Habilitar'></i>@endif</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{{ route('customers.delete', $customer->customer_id) }}" method="POST">
+                            @method('delete')
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm" @if($customer->q_devices > 0) disabled @endif><i class="fas fa-trash" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Eliminar'></i></button>
                             </form>
                         </td>
                         </tr>

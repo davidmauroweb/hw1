@@ -7,6 +7,7 @@ use App\Http\Controllers\{CustomerController, VisitController, DashboardControll
 Route::get('/customers/{string?}', [CustomerController::class, 'index'])->name('customers.index');
 Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
 Route::patch('/customers/{id}', [CustomerController::class, 'update'])->name('customers.state');
+Route::delete('/customers/{id}', [CustomerController::class, 'delete'])->name('customers.delete');
 //DEVICES
 Route::get('/devices/{id}/{string_find?}', [DeviceController::class, 'index'])->name('devices.index');
 Route::get('/pdf/{id}/{string_find?}', [DeviceController::class, 'pdf'])->name('devices.pdf');
@@ -45,4 +46,4 @@ Route::get('/', function () {
     return view('auth.login');
 });
 // Firewall Json
-Route::get('/fwall/{fwall}', [FwallController::class, 'show'])->name('fwall.show');
+//Route::get('/fwall/{fwall}', [FwallController::class, 'show'])->name('fwall.show');

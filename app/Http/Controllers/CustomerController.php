@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Customer, User};
+use App\Models\{Customer, User, Component};
 use Illuminate\Support\Facades\DB; 
 use Exception;
 
@@ -70,5 +70,19 @@ class CustomerController extends Controller
         }
             return redirect()->route('customers.index')->with($result, $message);
     }
-
+    public function delete($id)
+    {
+        try {
+            $customer = Customer::find($id);
+            $customer->delete();
+            $result = "success";
+            $message = "¡El cliente se eliminó correctamente!";
+            }
+            catch (Exception $e) {
+                $result = "error";
+                $message = "¡Surgió un error!";
+    
+            }
+                return redirect()->route('customers.index')->with($result, $message);
+    }
 }
