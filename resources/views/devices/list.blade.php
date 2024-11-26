@@ -75,7 +75,7 @@
          
         </div>
         <div class="modal-footer">
-             <button type="button" class="btn btn-info" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
+             <button type="button" class="btn btn-info" data-bs-dismiss="modal" onClick="history.go(0);"><i class="fas fa-times"></i></button>
         </div>
       </div>
   </div>
@@ -199,7 +199,15 @@ $('#componentsTable tbody').on( 'click', '#btnComponents', function () {
 
  });
 
-
+ $('#ListModal').on('hidden.bs.modal', function () {
+    history.go(0);
+});
+$('#EditModal').on('hidden.bs.modal', function () {
+    history.go(0);
+});
+$('#ComponentModal').on('hidden.bs.modal', function () {
+    history.go(0);
+});
 
 $("#frmComponent").submit(function(e) {
 
