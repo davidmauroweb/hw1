@@ -21,6 +21,8 @@ class CreateDevicesTable extends Migration
             $table->integer('customer_id')->unsigned()->nullable(false);
             $table->string('description', 100)->nullable(false);
             $table->boolean('enabled')->nullable(false)->default(1);
+            $table->string('location', 50)->nullable(true);
+            $table->string('serie',50)->nullable(true);
             $table->timestamps();
             $table->foreign('customer_id')->references('customer_id')->on('customers')->onDelete('cascade');   
         });

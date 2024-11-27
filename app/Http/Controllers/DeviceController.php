@@ -18,24 +18,28 @@ class DeviceController extends Controller
 
     public function index(Request $request)
     {
+        $dt = DB::table('devices')->where('devices.customer_id', $request->id)->count();
         $devices = DB::table('devices')
         ->leftJoin(DB::Raw('(SELECT * FROM components WHERE low = 0) components'), 'components.device_id', 'devices.device_id')
-        ->select('devices.device_id', 'devices.description', DB::raw('COUNT(components.component_id) as q_components'), DB::raw('SUM(components.amount) as s_components'), 'devices.created_at', 'devices.enabled')
+        ->select('devices.device_id', 'devices.description', 'devices.serie', 'devices.location', DB::raw('COUNT(components.component_id) as q_components'), DB::raw('SUM(components.amount) as s_components'), 'devices.created_at', 'devices.enabled')
+        ->addSelect(DB::raw('ROW_NUMBER() OVER (order by device_id) AS num'))
         ->where('devices.customer_id', $request->id)
         ->where('devices.description', 'LIKE', (isset($request->string_find) ? '%'.$request->string_find.'%' : '%%'))
         ->groupBy('devices.device_id', 'devices.description', 'devices.created_at', 'devices.enabled')
         ->paginate(10);
         $customer = Customer::find($request->id);
         $hardware = Hardware::all()->sortBy('denomination');
-        return view('devices.list', ['devices' => $devices, 'hardware'=> $hardware, 'business_name' => $customer->business_name, 'customer_id' => $customer->customer_id, 'string_find' => $request->string_find]);
+        return view('devices.list', ['devices' => $devices, 'hardware'=> $hardware, 'business_name' => $customer->business_name, 'customer_id' => $customer->customer_id, 'string_find' => $request->string_find, 'total' => $dt]);
     }
 
     public function pdf(Request $request)
     {
         $customer = Customer::find($request->id);
+        $dt = DB::table('devices')->where('devices.customer_id', $request->id)->count();
         $devices = DB::table('devices')
         ->leftJoin(DB::Raw('(SELECT * FROM components WHERE low = 0) components'), 'components.device_id', 'devices.device_id')
-        ->select('devices.device_id', 'devices.description', DB::raw('COUNT(components.component_id) as q_components'), DB::raw('SUM(components.amount) as s_components'), 'devices.created_at', 'devices.enabled')
+        ->select('devices.device_id', 'devices.description','devices.serie', 'devices.location', DB::raw('COUNT(components.component_id) as q_components'), DB::raw('SUM(components.amount) as s_components'), 'devices.created_at', 'devices.enabled')
+        ->addSelect(DB::raw('ROW_NUMBER() OVER (order by device_id) AS num'))
         ->where('devices.customer_id', $request->id)
         ->where('devices.description', 'LIKE', (isset($request->string_find) ? '%'.$request->string_find.'%' : '%%'))
         ->groupBy('devices.device_id', 'devices.description', 'devices.created_at', 'devices.enabled')
@@ -50,7 +54,7 @@ class DeviceController extends Controller
         ->where('low','=', 0)
         ->get();
 //        return view('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components]);
-        $pdf = PDF::loadView('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components]);
+        $pdf = PDF::loadView('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components,'total'=>$dt]);
         return $pdf->download($customer->business_name.'.pdf');
     }
 
@@ -60,6 +64,8 @@ class DeviceController extends Controller
                 $hardware = new Device();
                 $hardware->customer_id = $request->customer_id;
                 $hardware->description = $request->description;
+                $hardware->serie = $request->serie;
+                $hardware->location = $request->location;
                 $hardware->save();
                 $result = "success";
                 $message = "Se registró correctamente la licencia bajo el ID {$hardware->device_id}";

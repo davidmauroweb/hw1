@@ -7,7 +7,8 @@
 </head>
 <body>
 <div class="row py-1"></div>
-<H2 style="text-align:center">Listado de Equipamiento de {{$business_name}}</H2>  
+<H2 style="text-align:center">Listado de Equipamiento de {{$business_name}}</H2>
+<H6 style="text-align:center">Total de quipos: {{$total}}</H6> 
 <div class="row py-1"></div>
 <div class="container-x px-2 mx-2">
                     <table class="table table-striped">
@@ -15,6 +16,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>DESCRIPCIÓN</th>
+                                <th>UBICACION</th>
+                                <th>SERIE</th>
                                 <th>REGISTRADO</th>
                                 <th>COSTO</th>
                             </tr>
@@ -22,8 +25,10 @@
                         <tbody class="table-group-divider">
                             @foreach($devices as $device)
                             <tr class="bg-secondary text-white">
-                                <td>{{ $device->device_id }}</td>
+                                <td>{{ $device->num }}</td>
                                 <td>{{ $device->description}}</td>
+                                <td>{{ $device->location}}</td>
+                                <td>{{ $device->serie}}</td>
                                 <td>{{date('d/m/Y', strtotime($device->created_at))}}</td>
                                 <td>{{ $device->s_components}}</td>
                               </tr>

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('legend_id')
-<H4 style="text-align:center">Listado de Equipamiento de {{$business_name}}</H4>  
+<H4 style="text-align:center">Listado de Equipamiento de {{$business_name}}</H4>
+<h6 style="text-align:center">Total de equipos: {{$total}}</h6>
 @endsection
 @section('content')
 
@@ -121,6 +122,8 @@
                             <tr style="text-align:center; background-color:gray ; color:white;">
                                 <th>#</th>
                                 <th>DESCRIPCIÓN</th>
+                                <th>UBICACION</th>
+                                <th>SERIE</th>
                                 <th>REGISTRADO</th>
                                 <th>COSTO</th>
                                 <th>COMPONENTES</th>
@@ -133,8 +136,10 @@
                         <tbody>
                             @foreach($devices as $device)
                             <tr style="text-align: center" id="{{$device->device_id}}">
-                                <td>{{ $device->device_id }}</td>
+                                <td>{{ $device->num }}</td>
                                 <td>{{ $device->description}}</td>
+                                <td>{{ $device->location}}</td>
+                                <td>{{ $device->serie}}</td>
                                 <td>{{ $device->created_at}}</td>
                                 <td>{{ $device->s_components}}</td>
                                 <td>{{ $device->q_components}}</td>
@@ -166,10 +171,19 @@
 <form id ="frmLicense" method="POST" action="{{ route('devices.store')}}">
           @csrf
           <div class="row">
-          <div class="col-sm-10">
+            <div class="col-sm-10">
             <label for="description_id"><i class="fas fa-calendar-times"></i>DESCRIPCIÓN</label>
             <input type="text" class="form-control form-control-sm" id="description_id" name = "description" required>
-        </div>
+            <div class="row">
+                <div class="col-sm-6">
+                <label for="serie"><i class="fa-solid fa-hashtag"></i>SERIE</label>
+                <input type="text" class="form-control form-control-sm" id="serie" name = "serie" maxlength="50">
+                </div><div class="col-sm-6">
+                <label for="location"><i class="fa-solid fa-location-dot"></i>UBICACION</label>
+                <input type="text" class="form-control form-control-sm" id="location" name = "location" maxlength="50">
+                </div>
+            </div>
+            </div>
         <div class="col-sm-auto">
            <input type="hidden" value="{{$customer_id}}" name="customer_id">
            <div class="container d-flex h-100">
