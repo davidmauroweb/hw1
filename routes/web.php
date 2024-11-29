@@ -11,7 +11,6 @@ Route::delete('/customers/{id}', [CustomerController::class, 'delete'])->name('c
 //DEVICES
 Route::get('/devices/{id}/{string_find?}', [DeviceController::class, 'index'])->name('devices.index');
 Route::get('/pdf/{id}/{string_find?}', [DeviceController::class, 'pdf'])->name('devices.pdf');
-
 Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
 Route::delete('/devices/{id}', [DeviceController::class, 'destroy'])->name('devices.destroy');
 //USER
