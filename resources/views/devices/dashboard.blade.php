@@ -40,6 +40,9 @@
 
 
 
+
+
+
         <hr>
         <div class="row"> 
             <div class="col"><div class="alert alert-info" role="alert"><i class="fa-solid fa-computer fa-2x"></i> <b>  DISPOSITIVOS: </b> {{$counts[0]->q_devices}} </div></div>
@@ -57,6 +60,7 @@
                             <th>COMPONENTES</th>
                             <th>MONTO TOTAL</th>
                             <th>&nbsp;</th>
+                            <th>QR</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +71,28 @@
                     <td>{{$item->q_components}}</td>
                     <td>{{$item->s_components}}</td>
                     <td><button style="border-radius: 50%;" data-bs-toggle="modal" data-bs-target="#HardwareModal" id = 'btnDetail' class='btn btn-info btn-sm'><i class="fa-solid fa-circle-info" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Ver detalle'></i></button></td>
-                    </tr>
+                    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#qrModal{{$item->device_id}}">QR</button>                    </td>    
+                </tr>
+  <!-- QR Modal -->
+  <div class="modal fade" id="qrModal{{$item->device_id}}" tabindex="-1" role="dialog" aria-labelledby="rqModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rqModalLabel">{{$customer}} - {{$item->description}}</h5>
+      </div>
+      <div class="modal-body text-center">
+        @php
+        $png = QrCode::format('png')->size(200)->generate('http://www.google.com/'.$item->device_id);
+        $png = base64_encode($png);
+        echo "<img src='data:image/png;base64," . $png . "'>";
+        @endphp
+      </div>
+      <div class="modal-footer">
+             <button type="button" class="btn btn-info" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
+  </div>
+</div>
                     @endforeach    
                  </tbody>
                 </table>
