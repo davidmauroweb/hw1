@@ -71,7 +71,7 @@
                     <td>{{$item->q_components}}</td>
                     <td>{{$item->s_components}}</td>
                     <td><button style="border-radius: 50%;" data-bs-toggle="modal" data-bs-target="#HardwareModal" id = 'btnDetail' class='btn btn-info btn-sm'><i class="fa-solid fa-circle-info" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Ver detalle'></i></button></td>
-                    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#qrModal{{$item->device_id}}">QR</button>                    </td>    
+                    <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#qrModal{{$item->device_id}}"><i class="fa-solid fa-qrcode"></i></button></td>
                 </tr>
   <!-- QR Modal -->
   <div class="modal fade" id="qrModal{{$item->device_id}}" tabindex="-1" role="dialog" aria-labelledby="rqModalLabel" aria-hidden="true">
@@ -82,7 +82,7 @@
       </div>
       <div class="modal-body text-center">
         @php
-        $png = QrCode::format('png')->size(200)->generate('http://www.google.com/'.$item->device_id);
+        $png = QrCode::format('png')->size(200)->generate('https://inventario.pcassi.net/qr/'.base64_encode($item->device_id));
         $png = base64_encode($png);
         echo "<img src='data:image/png;base64," . $png . "'>";
         @endphp

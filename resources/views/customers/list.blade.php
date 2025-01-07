@@ -82,6 +82,7 @@
                         <td><button data-bs-toggle="modal" data-bs-target="#CustomerModal" id = 'btnEdit' class='btn btn-warning btn-sm'><i class="fas fa-edit" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Editar el registro'></i></button></td>
                         <td><a href="{{ route('devices.index', $customer->customer_id) }}" class="btn btn-dark btn-sm" role="button" aria-pressed="true"><i class="fa-solid fa-computer" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Gestionar hardware'></i></a></td>
                         <td><a href="{{ route('devices.pdf', $customer->customer_id) }}" class="btn btn-success btn-sm" role="button" aria-pressed="true"><i class="fa fa-file-pdf" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Descargar PDF'></i></a></td>
+                        <td><a href="{{ route('devices.pdf-qrls', $customer->customer_id) }}" class="btn btn-success btn-sm" role="button" aria-pressed="true"><i class="fa-solid fa-qrcode" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='QRs en PDF'></i></a></td>
                         <td><a href="{{ route('hardware.dashboard', base64_encode($customer->customer_x)) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true"><i class="fa-solid fa-chart-simple" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Dashboard'></i></a></td>
                         <td>
                             <form action="{{ route('customers.state', $customer->customer_id) }}" method="POST">

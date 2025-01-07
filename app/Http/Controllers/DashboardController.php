@@ -58,7 +58,7 @@ class DashboardController extends Controller
 
         $devices = DB::table('devices')
         ->leftJoin(DB::Raw('(SELECT * FROM components WHERE low = 0) components'), 'components.device_id', 'devices.device_id')
-        ->select('devices.device_id', 'devices.description', DB::raw('COUNT(components.component_id) as q_components'), DB::raw('SUM(components.amount) as s_components'), 'devices.created_at', 'devices.enabled')
+        ->select('devices.device_id','devices.customer_id', 'devices.description', DB::raw('COUNT(components.component_id) as q_components'), DB::raw('SUM(components.amount) as s_components'), 'devices.created_at', 'devices.enabled')
         ->where('devices.customer_id', $i)
         ->groupBy('devices.device_id', 'devices.description', 'devices.created_at', 'devices.enabled')
         ->get();
@@ -81,7 +81,7 @@ class DashboardController extends Controller
         $x = explode("||||",$i);
         $i = $x[0];
         $customer = Customer::find($i);
-        $dt = DB::table('devices')->where('devices.customer_id', $id)->count();
+        $dt = DB::table('devices')->where('devices.customer_id', $i)->count();
         $devices = DB::table('devices')
         ->leftJoin(DB::Raw('(SELECT * FROM components WHERE low = 0) components'), 'components.device_id', 'devices.device_id')
         ->select('devices.device_id', 'devices.description', 'devices.serie', 'devices.location', DB::raw('COUNT(components.component_id) as q_components'), DB::raw('SUM(components.amount) as s_components'), 'devices.created_at', 'devices.enabled')
@@ -99,9 +99,51 @@ class DashboardController extends Controller
         ->where('customer_id', '=', $i)
         ->where('low','=', 0)
         ->get();
-//        return view('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components]);
+        //return view('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components,'total'=>$dt]);
         $pdf = PDF::loadView('devices.pdf', ['devices' => $devices, 'business_name' => $customer->business_name, 'comp' => $components,'total'=>$dt]);
-        return $pdf->download($customer->business_name.'.pdf');
+        return $pdf->setPaper('a4')->download($customer->business_name.'.pdf');
+
+    }
+    public function qr($id)
+    {
+        $i = base64_decode($id);
+        $device = DB::table('devices')
+        ->select('description','location','serie','customers.user_id','customers.business_name','users.username')
+        ->join('customers', 'devices.customer_id','customers.customer_id')
+        ->join('users','customers.user_id','users.user_id')
+        ->where('devices.device_id', '=', $i)
+        ->first();
+        $components = DB::table('components')
+        ->leftJoin('hardware', 'components.hardware_id','hardware.hardware_id')
+        ->selectRaw('hardware.icon, hardware.denomination, components.trademark, components.features, components.original, components.acquired, components.date_of_expiry, components.amount, IF(components.low = 1, components.discharge_date, "") low')
+        ->where('components.device_id', '=', $i)
+        ->where('low','=', 0)
+        ->get();
+        if ((Auth::user()->user_id == $device->user_id)||(Auth::user()->user_id == 1))
+            {
+                return view('devices.qr', ['equipo' => $device, 'components' => $components]);
+            }
+        else
+        {
+            echo "
+            <html>
+<head>
+<style>
+.center {
+  text-align: center;
+  color: red;
+}
+</style>
+</head>
+<body>
+
+<h1 class='center'>Error de sesión</h1>
+<p class='center'>El equipo al que quiere acceder pertenece a otro usuario.</p> 
+
+</body>
+</html>
+            ";
+        }
 
     }
 }

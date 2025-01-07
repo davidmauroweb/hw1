@@ -143,6 +143,7 @@
                                 <td>{{ $device->created_at}}</td>
                                 <td>{{ $device->s_components}}</td>
                                 <td>{{ $device->q_components}}</td>
+                                <td><button data-bs-toggle="modal" data-bs-target="#obs-{{$device->device_id}}" id = 'btnComponents' class='btn btn-warning btn-sm'><i class="fa-solid fa-check" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Observaciones - Serie - Ubicación'></i></button></td>
                                 <td><button data-bs-toggle="modal" data-bs-target="#ComponentModal" id = 'btnComponents' class='btn btn-primary btn-sm'><i class="fa-solid fa-desktop" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Agregar Componente'></i></button></td>
                                 <td><button data-bs-toggle="modal" data-bs-target="#ListModal" id = 'btnActives' onclick="Fill({{$device->device_id}}, 0, '{{$device->description}}')" class='btn btn-success btn-sm'><i class="fa-solid fa-memory" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Ver Componentes Activos'></i></button></td>
                                 <td><button data-bs-toggle="modal" data-bs-target="#ListModal" id = 'btnLow' onclick="Fill({{$device->device_id}}, 1, '{{$device->description}}')" class='btn btn-secondary btn-sm'><i class="fa-solid fa-microchip" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Ver Componentes Reemplazados'></i></button></td>
@@ -154,6 +155,46 @@
                                     </form>
                                 </td>
                               </tr>
+
+<!-- OBS -->
+<div class="modal fade" id="obs-{{$device->device_id}}" tabindex="-1" aria-labelledby="Observaciones" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="Obaservaciones">Editar Equipamiento</h5>
+      </div>
+      <form method="post" action="{{route('devices.obs')}}">
+      <div class="modal-body">
+        @csrf
+        <div>
+            <label for="desc" class="form-label m-0 p-1"><i class="fa-solid fa-hashtag"></i>Descripción</label>
+            <input class="form-control" type="text" name="desc" value="{{$device->description}}" id="desc">
+        </div>
+        <div>
+            <label for="obs" class="form-label m-0 p-1"><i class="fa-solid fa-check"></i>Observaciones</label>
+            <textarea class="form-control" rows="4" cols="50" name="obs" id="obs">{{$device->obs}}</textarea>
+        </div>
+        <div>
+                <label for="ser" class="form-label m-0 p-1"><i class="fa-solid fa-hashtag"></i>Serie</label>
+                <input class="form-control" type="text" name="ser" value="{{$device->serie}}" id="ser">
+        </div>
+        <div>
+                <label for="loc" class="form-label m-0 p-1"><i class="fa-solid fa-location-dot"></i>Ubicación</label>
+                <input class="form-control" type="text" name="loc" value="{{$device->location}}" id="loc">
+        </div>
+            <input type="hidden" name="device_id" value="{{$device->device_id}}">
+            <input type="hidden" name="customer_id" value="{{$customer_id}}">
+            <input type="hidden" name="pg" value="{{$devices->currentPage()}}">
+        </div>
+      <div class="modal-footer"><button type="submit" class="btn btn-success btn-sm"><i class="fas fa-check"></i></button>
+      <button type="button" class="btn btn-info btn-sm" data-bs-dismiss="modal"><i class="fas fa-times"></i></button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<!-- OBS -->
+
                             @endforeach
                         </tbody>
                     </table>
@@ -174,11 +215,14 @@
             <div class="col-sm-10">
             <label for="description_id"><i class="fas fa-calendar-times"></i>DESCRIPCIÓN</label>
             <input type="text" class="form-control form-control-sm" id="description_id" name = "description" required>
+            <label for="obs"><i class="fa-solid fa-check"></i>OBSERVACIONES</label>
+            <input type="text" class="form-control form-control-sm" id="obs" name ="obs">
             <div class="row">
                 <div class="col-sm-6">
                 <label for="serie"><i class="fa-solid fa-hashtag"></i>SERIE</label>
                 <input type="text" class="form-control form-control-sm" id="serie" name = "serie" maxlength="50">
-                </div><div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
                 <label for="location"><i class="fa-solid fa-location-dot"></i>UBICACION</label>
                 <input type="text" class="form-control form-control-sm" id="location" name = "location" maxlength="50">
                 </div>
@@ -213,8 +257,8 @@ $('#componentsTable tbody').on( 'click', '#btnComponents', function () {
 
  });
 
- $('#ListModal').on('hidden.bs.modal', function () {
-    history.go(0);
+$('#ListModal').on('hidden.bs.modal', function () {
+
 });
 $('#EditModal').on('hidden.bs.modal', function () {
     history.go(0);
@@ -248,6 +292,7 @@ $.ajax({
        statusCode: { 201: handle201 }    
          });
 });
+
 
 $("#editComponent").submit(function(e) {
 

@@ -11,7 +11,9 @@ Route::delete('/customers/{id}', [CustomerController::class, 'delete'])->name('c
 //DEVICES
 Route::get('/devices/{id}/{string_find?}', [DeviceController::class, 'index'])->name('devices.index');
 Route::get('/pdf/{id}/{string_find?}', [DeviceController::class, 'pdf'])->name('devices.pdf');
+Route::get('/pdf-qrls/{id}/{string_find?}', [DeviceController::class, 'pdfqrls'])->name('devices.pdf-qrls');
 Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
+Route::post('/devices-obs', [DeviceController::class, 'obs'])->name('devices.obs');
 Route::delete('/devices/{id}', [DeviceController::class, 'destroy'])->name('devices.destroy');
 //USER
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -40,6 +42,7 @@ Route::get('/visit/{token}/{id}', [VisitController::class, 'visit'])->name('visi
 Route::get('/dashboard/{id}', [DashboardController::class, 'dashboard'])->name('hardware.dashboard');
 Route::get('/pdfu/{id}/{string_find?}', [DashboardController::class, 'pdfu'])->name('devices.pdfu');
 Route::get('/detail/{customer}/{id}', [DashboardController::class, 'detail'])->name('list.index');
+Route::get('/qr/{id}', [DashboardController::class, 'qr'])->name('devices.qr');
 Auth::routes();
 Route::get('/', function () {
     return view('auth.login');
