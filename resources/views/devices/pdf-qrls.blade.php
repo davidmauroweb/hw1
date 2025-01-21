@@ -26,34 +26,38 @@ height: 50px;
 <main>
 <div class="row py-1"></div>
 <div class="container-x px-2 mx-2">
-
-                            @foreach($devices as $device)
                     <table class="table table-sm">
-                        <tbody>
+                        <tbody>@php $qrs=0 @endphp
                             <tr>
+                                @foreach($devices as $device)
                                 <td>
                                     <h6>{{ $device->description }}</h6>
                                     Ubicación : {{ $device->location}}<br>
                                     Serie : {{ $device->serie}}<br>
                                     Registro : {{date('d/m/Y', strtotime($device->created_at))}}<br>
                                 </td>
-                                <td>
+                                <td><img src="mark-b-pdf.jpg" style="width: 100px; height: 29px"><br>
+                                <div class="my-2">
                                 @php
-        $png = QrCode::format('png')->size(200)->generate('https://inventario.pcassi.net/qr/'.base64_encode($device->device_id));
-        $png = base64_encode($png);
-        echo "<img src='data:image/png;base64," . $png . "'>";
-        @endphp<br>
-        {{ $device->location}}
+                                $png = QrCode::format('png')->size(100)->generate('https://inventario.pcassi.net/qr/'.base64_encode($device->device_id));
+                                $png = base64_encode($png);
+                                echo "<img src='data:image/png;base64," . $png . "'>";
+                                @endphp<br>
+                                {{$business_name}}<br>
+                                </div>
+                                <img src="mark-b.png" style="width: 100px; height: 29px">
                                 </td>
-                                <td style="vertical-align: middle;">
-                                <img src="mark-b-pdf.jpg" style="width: 138px; height: 40px"><br>
-                                <img src="mark-b.png" style="width: 138px; height: 40px">
-                                </td>
+                                @php
+                                $qrs=$qrs+1;
+                                if ($qrs==2){
+                                    echo "</tr><tr>";
+                                    $qrs=0;
+                                }
+                                @endphp
+                                @endforeach
                               </tr>
                         </tbody>
                     </table>
-@endforeach
-
 </div>
 <div class="row py-3"></div>
 <hr>
