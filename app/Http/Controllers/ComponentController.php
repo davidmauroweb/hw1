@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{Component, Hardware};
 use Illuminate\Support\Facades\{Auth, DB};
+Use \Carbon\Carbon;
 use Exception;
 
 class ComponentController extends Controller
@@ -13,6 +14,21 @@ class ComponentController extends Controller
     {
        $this->middleware('auth');
        $this->middleware('check.role');
+    }
+
+    public function expire(){
+        $hoy = Carbon::now();
+        $exp = Carbon::now()->addDays(30);
+        $ls = DB::table('components')
+            ->join('hardware','components.hardware_id','hardware.hardware_id')
+            ->join('devices','components.device_id','devices.device_id')
+            ->join('customers','devices.customer_id','customers.customer_id')
+            ->join('users','customers.user_id','users.user_id')
+            ->select('hardware.icon','hardware.denomination','devices.description','devices.serie','customers.business_name','users.username','components.date_of_expiry')
+            ->whereBetween('date_of_expiry', [$hoy, $exp])
+            ->orderBy('components.date_of_expiry')
+            ->get();
+        return view('devices.expire',['ls'=>$ls,'hasta'=>$exp]);
     }
 
     public function index($id, $type)

@@ -67,6 +67,7 @@
                                 <a class="dropdown-item" href="{{ route('users.index')}}"><i class="fa-solid fa-users fa-2x" style="color:gray" aria-hidden="true"></i>USUARIOS</a>
                                 <a class="dropdown-item" href="{{ route('customers.index')}}"><i class="fa-solid fa-building-user fa-2x" style="color:gray" aria-hidden="true"></i>CLIENTES</a>
                                 <a class="dropdown-item" href="{{ route('messages.index')}}"><i class="fa-solid fa-envelopes-bulk fa-2x" style="color:gray" aria-hidden="true"></i>MENSAJES</a>
+                                <a class="dropdown-item" href="{{ route('components.expire')}}"><i class="fa-solid fa-stopwatch fa-2x" style="color:red" aria-hidden="true"></i>EXP.</a>
                                 @endif  
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

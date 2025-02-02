@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{User, Customer};
-use Illuminate\Support\Facades\{ DB, Auth};
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\{DB, Auth, Hash};
 
 class UserController extends Controller
 {
@@ -49,10 +48,24 @@ class UserController extends Controller
     }
 
     public function password(Request $request)
-    {
+    {/*
+        if($request->password==$request->repeat_password){
           $user = User::find($request->user_password);
           $user->password = Hash::make($request->password);
-          $user->save(); 
-          return redirect()->route('users.index')->with('success', "¡Se estableció la contraseña para el usuario!");
+          $user->save();
+          $msj_type="success";
+          $txt="¡Se estableció la contraseña para el usuario!";
+        }else{
+            $msj_type="error";
+            $txt="No coinciden las claves";
+        }
+          return redirect()->route('users.index')->with($msj_type, $txt);
+    */
+    echo $request->password;
+    echo "<br>";
+    echo Hash::make($request->password);
+    echo "<br>";
+    echo $request->user_password;
+          
     }
 }

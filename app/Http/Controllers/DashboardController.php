@@ -108,7 +108,7 @@ class DashboardController extends Controller
     {
         $i = base64_decode($id);
         $device = DB::table('devices')
-        ->select('description','location','serie','customers.user_id','customers.business_name','users.username')
+        ->select('description','location','serie','obs','customers.user_id','customers.business_name','users.username')
         ->join('customers', 'devices.customer_id','customers.customer_id')
         ->join('users','customers.user_id','users.user_id')
         ->where('devices.device_id', '=', $i)

@@ -77,11 +77,6 @@ class MessageController extends Controller
                 $result = "error";
                 $legend = "¡Surgió un error, verifique que los datos sean correctos!";
             }
-           
             return redirect()->route('messages.index')->with($result, $legend);
-
-        
-              
-    }
-    
+    }    
 }

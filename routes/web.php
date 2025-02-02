@@ -22,6 +22,7 @@ Route::post('/users', [UserController::class, 'store'])->name('users.store');
 Route::patch('/users/password', [UserController::class, 'password'])->name('users.password');
 //COMPONENT
 Route::get('/components/{id}/{type}', [ComponentController::class, 'index'])->name('components.index');
+Route::get('/components/expire', [ComponentController::class, 'expire'])->name('components.expire');
 Route::post('/components', [ComponentController::class, 'store'])->name('components.store');
 Route::patch('/components/{id}', [ComponentController::class, 'low'])->name('components.low');
 Route::delete('/components/{id}', [ComponentController::class, 'destroy'])->name('components.destroy');
