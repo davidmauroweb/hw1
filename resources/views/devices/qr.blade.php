@@ -10,7 +10,7 @@
     <div class="container">
     <div class="table-responsive">
     <b>Equipo:</b> {{$equipo->description}}<br>
-    <b>Ubicación:</b> {{$equipo->description}}<br>
+    <b>Ubicación:</b> {{$equipo->location}}<br>
     <b>Serie:</b> {{$equipo->serie}}<br>
     <b>Observaciones:</b> {{$equipo->obs}}
                 <table id="customersTable" class="table table-bordered table-sm table-hover;">
