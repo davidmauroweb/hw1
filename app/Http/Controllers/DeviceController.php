@@ -21,7 +21,7 @@ class DeviceController extends Controller
         $dt = DB::table('devices')->where('devices.customer_id', $request->id)->count();
         $devices = DB::table('devices')
         ->leftJoin(DB::Raw('(SELECT * FROM components WHERE low = 0) components'), 'components.device_id', 'devices.device_id')
-        ->select('devices.device_id','devices.obs', 'devices.description', 'devices.serie', 'devices.location', DB::raw('COUNT(components.component_id) as q_components'), DB::raw('SUM(components.amount) as s_components'), 'devices.created_at', 'devices.enabled')
+        ->select('devices.device_id','devices.obs', 'devices.description', 'devices.serie','devices.usuario', 'devices.location', DB::raw('COUNT(components.component_id) as q_components'), DB::raw('SUM(components.amount) as s_components'), 'devices.created_at', 'devices.enabled')
         ->addSelect(DB::raw('ROW_NUMBER() OVER (order by device_id) AS num'))
         ->where('devices.customer_id', $request->id)
         ->where('devices.description', 'LIKE', (isset($request->string_find) ? '%'.$request->string_find.'%' : '%%'))
@@ -77,6 +77,7 @@ class DeviceController extends Controller
                 $hardware->customer_id = $request->customer_id;
                 $hardware->description = $request->description;
                 $hardware->serie = $request->serie;
+                $hardware->usuario = $request->usuario;
                 $hardware->location = $request->location;
                 $hardware->obs = $request->obs;
                 $hardware->save();
@@ -113,6 +114,7 @@ class DeviceController extends Controller
         $upd->serie = $request->ser;
         $upd->description = $request->desc;
         $upd->location = $request->loc;
+        $upd->usuario = $request->usuario;
         $upd->save();
         $param = $request->customer_id."?page=".$request->pg;
         return redirect()->route('devices.index', $param);

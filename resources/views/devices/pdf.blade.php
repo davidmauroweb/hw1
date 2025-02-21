@@ -33,7 +33,7 @@ height: 50px;
                         <tbody>
                             <tr class="table-secondary">
                                 <tr>
-                                <td><h5># : {{ $device->num }}</h5></td><td></td></tr>
+                                <td><h5># : {{ $device->num }}</h5></td><td>Usuario : {{ $device->usuario}}</td></tr>
                                 <tr><td>Descripción : {{ $device->description}}</td><td>Ubicación : {{ $device->location}}</td></tr>
                                 <tr><td>Serie : {{ $device->serie}}</td><td>Registro : {{date('d/m/Y', strtotime($device->created_at))}}</td></tr>
                                 <tr><td>Costo : {{ $device->s_components}}</td><td></td></tr>

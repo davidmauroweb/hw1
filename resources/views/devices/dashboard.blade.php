@@ -57,6 +57,7 @@
                         <tr style="background-color:gray ; color:white;">
                             <th>&nbsp;</th>
                             <th>DISPOSITIVO</th>
+                            <th>USUARIO</th>
                             <th>COMPONENTES</th>
                             <th>MONTO TOTAL</th>
                             <th>&nbsp;</th>
@@ -68,6 +69,7 @@
                     <tr class="align-middle" id="{{$item->device_id}}"> 
                     <td><i style="color:blue" class="fa-solid fa-computer fa-2x"></i></td>   
                     <td>{{$item->description}}</td>
+                    <td>{{$item->usuario}}</td>
                     <td>{{$item->q_components}}</td>
                     <td>{{$item->s_components}}</td>
                     <td><button style="border-radius: 50%;" data-bs-toggle="modal" data-bs-target="#HardwareModal" id = 'btnDetail' class='btn btn-info btn-sm'><i class="fa-solid fa-circle-info" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Ver detalle'></i></button></td>

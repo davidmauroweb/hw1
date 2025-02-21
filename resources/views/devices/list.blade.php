@@ -122,6 +122,7 @@
                             <tr style="text-align:center; background-color:gray ; color:white;">
                                 <th>#</th>
                                 <th>DESCRIPCIÓN</th>
+                                <th>USUARIO</th>
                                 <th>UBICACION</th>
                                 <th>SERIE</th>
                                 <th>REGISTRADO</th>
@@ -138,12 +139,13 @@
                             <tr style="text-align: center" id="{{$device->device_id}}">
                                 <td>{{ $device->num }}</td>
                                 <td>{{ $device->description}}</td>
+                                <td>{{ $device->usuario}}</td>
                                 <td>{{ $device->location}}</td>
                                 <td>{{ $device->serie}}</td>
                                 <td>{{ $device->created_at}}</td>
                                 <td>{{ $device->s_components}}</td>
                                 <td>{{ $device->q_components}}</td>
-                                <td><button data-bs-toggle="modal" data-bs-target="#obs-{{$device->device_id}}" id = 'btnComponents' class='btn btn-warning btn-sm'><i class="fa-solid fa-check" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Observaciones - Serie - Ubicación'></i></button></td>
+                                <td><button data-bs-toggle="modal" data-bs-target="#obs-{{$device->device_id}}" id = 'btnComponents' class='btn btn-warning btn-sm'><i class="fa-solid fa-check" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Observaciones - Usuario - Serie - Ubicación'></i></button></td>
                                 <td><button data-bs-toggle="modal" data-bs-target="#ComponentModal" id = 'btnComponents' class='btn btn-primary btn-sm'><i class="fa-solid fa-desktop" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Agregar Componente'></i></button></td>
                                 <td><button data-bs-toggle="modal" data-bs-target="#ListModal" id = 'btnActives' onclick="Fill({{$device->device_id}}, 0, '{{$device->description}}')" class='btn btn-success btn-sm'><i class="fa-solid fa-memory" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Ver Componentes Activos'></i></button></td>
                                 <td><button data-bs-toggle="modal" data-bs-target="#ListModal" id = 'btnLow' onclick="Fill({{$device->device_id}}, 1, '{{$device->description}}')" class='btn btn-secondary btn-sm'><i class="fa-solid fa-microchip" aria-hidden="true" data-toggle="tooltip" data-placement="top" title='Ver Componentes Reemplazados'></i></button></td>
@@ -169,6 +171,10 @@
         <div>
             <label for="desc" class="form-label m-0 p-1"><i class="fa-solid fa-hashtag"></i>Descripción</label>
             <input class="form-control" type="text" name="desc" value="{{$device->description}}" id="desc">
+        </div>
+        <div>
+            <label for="usuario" class="form-label m-0 p-1"><i class="fa-solid fa-user"></i>Usuario</label>
+            <input class="form-control" type="text" name="usuario" id="usuario" value="{{$device->usuario}}" maxlength="30">
         </div>
         <div>
             <label for="obs" class="form-label m-0 p-1"><i class="fa-solid fa-check"></i>Observaciones</label>
@@ -215,8 +221,16 @@
             <div class="col-sm-10">
             <label for="description_id"><i class="fas fa-calendar-times"></i>DESCRIPCIÓN</label>
             <input type="text" class="form-control form-control-sm" id="description_id" name = "description" required>
-            <label for="obs"><i class="fa-solid fa-check"></i>OBSERVACIONES</label>
-            <input type="text" class="form-control form-control-sm" id="obs" name ="obs">
+            <div class="row">
+                <div class="col-sm-6">
+                <label for="obs"><i class="fa-solid fa-check"></i>OBSERVACIONES</label>
+                <input type="text" class="form-control form-control-sm" id="obs" name ="obs">
+                </div>
+                <div class="col-sm-6">
+                <label for="usuario"><i class="fa-solid fa-user"></i>USUARIO</label>
+                <input type="text" class="form-control form-control-sm" id="usuario" name ="usuario" maxlength="30">
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-6">
                 <label for="serie"><i class="fa-solid fa-hashtag"></i>SERIE</label>
