@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
             $table->integerIncrements('user_id');
+            $table->unsignedInteger('dash');
             $table->string('username', 100)->nullable(false);
             $table->boolean('is_admin')->nullable(false)->default(1);
             $table->boolean('enabled')->nullable(false)->default(1);

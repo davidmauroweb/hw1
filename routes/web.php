@@ -8,6 +8,7 @@ Route::get('/customers/{string?}', [CustomerController::class, 'index'])->name('
 Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
 Route::patch('/customers/{id}', [CustomerController::class, 'update'])->name('customers.state');
 Route::delete('/customers/{id}', [CustomerController::class, 'delete'])->name('customers.delete');
+Route::get('/xlsu/{id}', [CustomerController::class, 'xls'])->name('devices.xls');
 //DEVICES
 Route::get('/devices/{id}/{string_find?}', [DeviceController::class, 'index'])->name('devices.index');
 Route::get('/pdf/{id}/{string_find?}', [DeviceController::class, 'pdf'])->name('devices.pdf');
@@ -42,6 +43,7 @@ Route::get('/visit/{token}/{id}', [VisitController::class, 'visit'])->name('visi
 //DASHBOARD
 Route::get('/dashboard/{id}', [DashboardController::class, 'dashboard'])->name('hardware.dashboard');
 Route::get('/pdfu/{id}/{string_find?}', [DashboardController::class, 'pdfu'])->name('devices.pdfu');
+Route::get('/xlsu/{id}/{string_find?}', [DashboardController::class, 'xlsu'])->name('devices.xlsu');
 Route::get('/detail/{customer}/{id}', [DashboardController::class, 'detail'])->name('list.index');
 Route::get('/qr/{id}', [DashboardController::class, 'qr'])->name('devices.qr');
 Auth::routes();

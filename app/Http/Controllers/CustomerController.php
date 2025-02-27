@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{Customer, User, Component};
-use Illuminate\Support\Facades\DB; 
+use Illuminate\Support\Facades\DB;
+use App\Exports\xlsu;
+use Maatwebsite\Excel\Facades\Excel;
 use Exception;
 
 class CustomerController extends Controller
@@ -16,6 +18,15 @@ class CustomerController extends Controller
        $this->middleware('check.role');
     }
     
+    public function xls($id)
+    {
+        $i = $id;
+        $customer = Customer::find($i);
+        //return Excel::download(new xlsu($i),$customer->business_name.'.xlsx');
+        return Excel::download(new xlsu($i),$customer->business_name.'.xlsx');
+
+    }
+
     public function index(Request $request)
     {
         $customers = DB::table('customers')

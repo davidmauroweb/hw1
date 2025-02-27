@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{DB, Auth};
 use App\Models\Customer;
+use App\Exports\xlsu;
+use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
 class DashboardController extends Controller
@@ -91,8 +93,6 @@ class DashboardController extends Controller
         ->groupBy('devices.device_id', 'devices.description', 'devices.created_at', 'devices.enabled')
         ->get();
 
-///////////////////////
-
         $components = DB::table('components')
         ->leftJoin('devices', 'components.device_id','devices.device_id')
         ->select('components.component_id','components.device_id','components.trademark','components.features','components.amount')
@@ -104,6 +104,18 @@ class DashboardController extends Controller
         return $pdf->setPaper('a4')->download($customer->business_name.'.pdf');
 
     }
+
+    public function xlsu($id)
+    {
+        $i = base64_decode($id);
+        $x = explode("||||",$i);
+        $i = $x[0];
+        $customer = Customer::find($i);
+        //return Excel::download(new xlsu($i),$customer->business_name.'.xlsx');
+        return Excel::download(new xlsu($i),$customer->business_name.'.xlsx');
+
+    }
+
     public function qr($id)
     {
         $i = base64_decode($id);
