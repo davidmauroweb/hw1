@@ -53,9 +53,14 @@ class LoginController extends Controller
            $request->session()->regenerate();
 
             if(!Auth::user()->is_admin) {
+                if(!Auth::user()->dash){
+                    $dash = Auth::user()->user_id;
+                } else {
+                    $dash = Auth::user()->dash;
+                }
             $customer = DB::table('customers')
            ->select(DB::raw("CONCAT(customers.customer_id, '||||PC-ASSI.2023#||||', customers.business_name) as customer_x, customers.business_name"))
-           ->where('customers.user_id', Auth::user()->user_id)
+           ->where('customers.user_id', $dash)
            ->where('customers.enabled', 1)
            ->orderBy('business_name')
            ->take(1)

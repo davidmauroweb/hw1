@@ -51,16 +51,27 @@
                                             @method('PATCH')
                                             @csrf
                                             <div class="row">
-                                            <div class="col-sm-6">
-                                                <label for="id_password">CONTRASEÑA</label>
-                                                <input type="password" class="form-control form-control-sm" id="id_password" name = "password" maxlength="20" required>
+                                                <div class="col-sm-6">
+                                                    <label for="id_password">CONTRASEÑA</label>
+                                                    <input type="password" class="form-control form-control-sm" id="id_password" name = "password" maxlength="20">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label for="id_repeat_password">REPETIR CONTRASEÑA</label>
+                                                    <input type="password" class="form-control form-control-sm" id="id_reapeat_password" name = "repeat_password" maxlength="20">
+                                                </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <label for="id_repeat_password">REPETIR CONTRASEÑA</label>
-                                                <input type="password" class="form-control form-control-sm" id="id_reapeat_password" name = "repeat_password" maxlength="20" required>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <label for="dash">PERTENECE A:</label>
+                                                    <select class="form-select" id="dash" aria-label="dash" name="dash">
+                                                    <option value="" @if($user->dash == "") selected @endif >Mismo</option>
+                                                    @foreach ($dash as $d)
+                                                    <option value="{{$d->user_id}}" @if($user->dash == $d->user_id) selected @endif>{{$d->username}}</option>
+                                                    @endforeach
+                                                    </select>
+                                                    
+                                                </div>
                                             </div>
-                                        </div>
-                                        
                                         <hr>
                                         <input type="hidden" value="{{ $user->user_id }}" id = "id_user_password" name="user_password">
                                         <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>   

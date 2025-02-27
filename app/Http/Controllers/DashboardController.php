@@ -32,10 +32,14 @@ class DashboardController extends Controller
     }
 
     public function dashboard($id) {
-
+        if(!Auth::user()->dash){
+            $dash = Auth::user()->user_id;
+        } else {
+            $dash = Auth::user()->dash;
+        }
         $customers = DB::table('customers')
         ->select(DB::raw("CONCAT(customers.customer_id, '||||PC-ASSI.2023#||||', customers.business_name) as customer_x, customers.business_name"))
-        ->where('customers.user_id', Auth::user()->user_id)
+        ->where('customers.user_id', $dash)
         ->where('customers.enabled', 1)
         ->orderBy('business_name')
         ->get();
@@ -49,7 +53,7 @@ class DashboardController extends Controller
         $i = $x[0];
 
         $verification_id = Customer::find($i);
-        if(($verification_id->user_id == Auth::user()->user_id) || Auth::user()->is_admin)
+        if(($verification_id->user_id == Auth::user()->user_id) || ($verification_id->user_id == Auth::user()->dash) || Auth::user()->is_admin)
             {
         $resume = DB::table('hardware')
         ->leftJoin(DB::RAW("(SELECT component_id, amount, hardware_id FROM  components C INNER JOIN devices D ON D.device_id = C.device_id WHERE D.customer_id = ".$i." and low = 0) c"), 'hardware.hardware_id', 'c.hardware_id')
@@ -131,7 +135,7 @@ class DashboardController extends Controller
         ->where('components.device_id', '=', $i)
         ->where('low','=', 0)
         ->get();
-        if ((Auth::user()->user_id == $device->user_id)||(Auth::user()->user_id == 1))
+        if ((Auth::user()->user_id == $device->user_id)|| ($verification_id->user_id == Auth::user()->dash) ||(Auth::user()->user_id == 1))
             {
                 return view('devices.qr', ['equipo' => $device, 'components' => $components]);
             }

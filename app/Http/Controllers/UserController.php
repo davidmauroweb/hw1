@@ -17,9 +17,9 @@ class UserController extends Controller
     public function index()
     {
 
-        $users = DB::table('users')
-                        ->paginate(5);
-        return view('auth.list', ['users' => $users]);
+        $users = DB::table('users')->paginate(5);
+        $dash = DB::table('users')->select('user_id','username')->get();
+        return view('auth.list', ['users' => $users, 'dash' => $dash]);
     }
 
     public function store(Request $request)
@@ -48,24 +48,26 @@ class UserController extends Controller
     }
 
     public function password(Request $request)
-    {/*
-        if($request->password==$request->repeat_password){
-          $user = User::find($request->user_password);
-          $user->password = Hash::make($request->password);
-          $user->save();
-          $msj_type="success";
-          $txt="¡Se estableció la contraseña para el usuario!";
+    {
+        $user = User::find($request->user_password);
+        if (isset($request->password) and  isset($request->repeat_password)){
+            if($request->password==$request->repeat_password){
+            
+            $user->password = Hash::make($request->password);
+            $user->dash = $request->dash;
+            $user->save();
+            $msj_type="success";
+            $txt="¡Se estableció la contraseña para el usuario!";
+            }else{
+                $msj_type="error";
+                $txt="No coinciden las claves";
+            }
         }else{
-            $msj_type="error";
-            $txt="No coinciden las claves";
+            $user->dash = $request->dash;
+            $user->save();
+            $msj_type="success";
+            $txt="¡Se asignó el usuario!";
         }
-          return redirect()->route('users.index')->with($msj_type, $txt);
-    */
-    echo $request->password;
-    echo "<br>";
-    echo Hash::make($request->password);
-    echo "<br>";
-    echo $request->user_password;
-          
+          return redirect()->route('users.index')->with($msj_type, $txt);          
     }
 }
