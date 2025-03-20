@@ -18,7 +18,7 @@ class ComponentController extends Controller
 
     public function expire(){
         $hoy = Carbon::now();
-        $exp = Carbon::now()->addDays(30);
+        $exp = Carbon::now()->addDays(360);
         $ls = DB::table('components')
             ->join('hardware','components.hardware_id','hardware.hardware_id')
             ->join('devices','components.device_id','devices.device_id')
@@ -28,7 +28,15 @@ class ComponentController extends Controller
             ->whereBetween('date_of_expiry', [$hoy, $exp])
             ->orderBy('components.date_of_expiry')
             ->get();
-        return view('devices.expire',['ls'=>$ls,'hasta'=>$exp]);
+            foreach ($ls as $event)
+            {
+                $marca[] = [
+                    'title' => $event->description." ".$event->business_name,
+                    'start' => $event->date_of_expiry,
+                    'end' => $event->date_of_expiry
+                ];
+            }
+        return view('devices.expire0',['ls'=>$ls,'hasta'=>$exp], compact('marca'));
     }
 
     public function index($id, $type)
